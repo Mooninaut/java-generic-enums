@@ -14,7 +14,8 @@ public class Main {
     public static void main(String[] args) {
         final var map = Map.of(
                 "-d", "Hello, World!",
-                "-proc", "OnlY"
+                "-proc", "OnlY",
+                "-g:", "vars,Lines"
         );
 
         System.out.println("map: " + map);
