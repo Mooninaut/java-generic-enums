@@ -32,6 +32,8 @@ import java.util.Iterator;
 public abstract sealed class MyEnumSet<E extends MyEnum<E>> extends AbstractSet<E>
         implements Cloneable, java.io.Serializable permits MyJumboEnumSet, MyRegularEnumSet
 {
+    @java.io.Serial
+    private static final long serialVersionUID = 1009687484059888093L;
     /**
      * The class of all the elements of this set.
      */
@@ -354,5 +356,98 @@ public abstract sealed class MyEnumSet<E extends MyEnum<E>> extends AbstractSet<
      */
     private static <E extends MyEnum<E>> E[] getUniverse(Class<E> elementType) {
         return MyEnum.getUniverse(elementType);
+    }
+
+
+    /**
+     * This class is used to serialize all EnumSet instances, regardless of
+     * implementation type.  It captures their "logical contents" and they
+     * are reconstructed using public static factories.  This is necessary
+     * to ensure that the existence of a particular implementation type is
+     * an implementation detail.
+     *
+     * @serial include
+     */
+    private static class SerializationProxy<E extends MyEnum<E>>
+            implements java.io.Serializable
+    {
+
+        private static final MyEnum<?>[] ZERO_LENGTH_ENUM_ARRAY = new MyEnum<?>[0];
+
+        /**
+         * The element type of this enum set.
+         *
+         * @serial
+         */
+        private final Class<E> elementType;
+
+        /**
+         * The elements contained in this enum set.
+         *
+         * @serial
+         */
+        private final MyEnum<?>[] elements;
+
+        SerializationProxy(MyEnumSet<E> set) {
+            elementType = set.elementType;
+            elements = set.toArray(ZERO_LENGTH_ENUM_ARRAY);
+        }
+
+        /**
+         * Returns an {@code EnumSet} object with initial state
+         * held by this proxy.
+         *
+         * @return a {@code EnumSet} object with initial state
+         * held by this proxy
+         */
+        @SuppressWarnings("unchecked")
+        @java.io.Serial
+        private Object readResolve() {
+            // instead of cast to E, we should perhaps use elementType.cast()
+            // to avoid injection of forged stream, but it will slow the
+            // implementation
+            MyEnumSet<E> result = MyEnumSet.noneOf(elementType);
+            for (MyEnum<?> e : elements)
+                result.add((E)e);
+            return result;
+        }
+
+        @java.io.Serial
+        private static final long serialVersionUID = 362491234563181265L;
+    }
+
+    /**
+     * Returns a
+     * <a href="{@docRoot}/serialized-form.html#java.util.EnumSet.SerializationProxy">
+     * SerializationProxy</a>
+     * representing the state of this instance.
+     *
+     * @return a {@link MyEnumSet.SerializationProxy}
+     * representing the state of this instance
+     */
+    @java.io.Serial
+    Object writeReplace() {
+        return new MyEnumSet.SerializationProxy<>(this);
+    }
+
+    /**
+     * Throws {@code InvalidObjectException}.
+     * @param s the stream
+     * @throws java.io.InvalidObjectException always
+     */
+    @java.io.Serial
+    private void readObject(java.io.ObjectInputStream s)
+            throws java.io.InvalidObjectException {
+        throw new java.io.InvalidObjectException("Proxy required");
+    }
+
+    /**
+     * Throws {@code InvalidObjectException}.
+     * @throws java.io.InvalidObjectException always
+     */
+    @java.io.Serial
+    private void readObjectNoData()
+            throws java.io.InvalidObjectException {
+        throw new java.io.InvalidObjectException("Proxy required");
     }
 }
