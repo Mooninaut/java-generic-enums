@@ -13,7 +13,7 @@ public abstract sealed class ElementType<E extends ElementType<E, EL>, EL extend
     public static final P P = new P();
     public static final TEXT TEXT = new TEXT();
 
-    public static final List<ElementType<?, ?>> VALUES = List.of(HTML, BODY, P);
+    public static final List<ElementType<?, ?>> VALUES = List.of(HTML, BODY, P, TEXT);
     public static final Map<String, ElementType<?, ?>> DIRECTORY = makeDirectory(VALUES);
 
     abstract boolean canContain(ElementType<?, ?> elementType);
