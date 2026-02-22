@@ -8,6 +8,7 @@ package org.duckdns.mooninaut;
 
 import org.duckdns.mooninaut.genericEnum.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Main {
@@ -73,5 +74,14 @@ public class Main {
         System.out.println(html.hasChildOfType(p.type())); // false
         System.out.println(body.hasChildOfType(ElementType.P)); // true
         System.out.println(p.hasChildOfType(ElementType.TEXT)); // true
+        System.out.println();
+
+        ArrayList<Integer> integers = ComplicatedEnum.INTEGER.makeList(1, 2, 3);
+        System.out.println(integers.getClass());
+
+        ComplicatedEnum.LONG LONG = (ComplicatedEnum.LONG) ComplicatedEnum.valueOf("LONG");
+
+        final var longs = LONG.makeList(3L, 2L, 1L);
+        System.out.println(longs.getClass());
     }
 }
