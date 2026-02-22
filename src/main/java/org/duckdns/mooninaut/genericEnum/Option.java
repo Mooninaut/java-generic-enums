@@ -1,4 +1,4 @@
-// Based on https://mail.openjdk.org/pipermail/amber-spec-experts/2017-May/000041.html
+// Option.java is based on https://mail.openjdk.org/pipermail/amber-spec-experts/2017-May/000041.html
 //
 // All original work in this file by Clement Cherlin is marked CC0 1.0.
 //
@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 // The key to making this work is that Option<T> extends MyEnum<Option<?>>
-// instead of MyEnum<Option<T>>. Changing ? to T breaks the class.
+// instead of MyEnum<Option<T>>. Changing ? to T will break MyEnumSets of Option.
 public sealed abstract class Option<T> extends MyEnum<Option<?>> {
 
     protected Option(String name, int ordinal, String prefix) {
