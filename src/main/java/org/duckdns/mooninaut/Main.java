@@ -6,10 +6,7 @@
 
 package org.duckdns.mooninaut;
 
-import org.duckdns.mooninaut.genericEnum.MyEnum;
-import org.duckdns.mooninaut.genericEnum.MyEnumSet;
-import org.duckdns.mooninaut.genericEnum.Option;
-import org.duckdns.mooninaut.genericEnum.Options;
+import org.duckdns.mooninaut.genericEnum.*;
 
 import java.util.Map;
 
@@ -45,14 +42,36 @@ public class Main {
 
         System.out.println("MyEnumSet.allOf(Option): " + set);
         System.out.println();
+
         System.out.println("Option.valueOf(\"D\"): " + Option.valueOf("D"));
         System.out.println("MyEnum.valueOf(Option.class, \"PROC\"): " +
                 MyEnum.valueOf(Option.class, "PROC"));
         System.out.println();
+
         System.out.println("D.getClass: " + Option.D.getClass());
         System.out.println("D.getDeclaringClass: " + Option.D.getDeclaringClass());
         System.out.println();
+
         System.out.println("Reversed values: " + Option.VALUES.reversed());
         System.out.println("Reversed values, sorted: " + Option.VALUES.reversed().stream().sorted().toList());
+        System.out.println();
+
+        final var html = ElementType.HTML.createElement();
+        System.out.println(html + "\n");
+        final var body = ElementType.BODY.createElement();
+        System.out.println(body + "\n");
+        final var p = ElementType.P.createElement();
+        System.out.println(html.appendChild(body) + "\n");
+        body.appendChild(p);
+        System.out.println(html + "\n");
+
+        final var text = ElementType.TEXT.createElement("Hi there!");
+        p.appendChild(text);
+        System.out.println(html + "\n");
+
+        System.out.println(html.hasChildOfType(body.type())); // true
+        System.out.println(html.hasChildOfType(p.type())); // false
+        System.out.println(body.hasChildOfType(ElementType.P)); // true
+        System.out.println(p.hasChildOfType(ElementType.TEXT)); // true
     }
 }
