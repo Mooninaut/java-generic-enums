@@ -56,7 +56,7 @@ public abstract sealed class Migration3<T extends Number>
         System.out.println(set);
     }
 
-    public static Migration3[] values() {
+    public static Migration3<?>[] values() {
         return VALUES.toArray(new Migration3[0]);
     }
 

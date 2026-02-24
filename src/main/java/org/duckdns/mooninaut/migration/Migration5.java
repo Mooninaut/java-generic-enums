@@ -40,7 +40,8 @@ public abstract sealed class Migration5<T extends Number>
         return MyEnumSet.allOf(Migration5.A.getDeclaringClass());
     }
 
-    public static MyEnumSet<Migration5<?>> invert(MyEnumSet<? extends Migration5> set) {
+    // MyEnumSet<? extends Migration5> -> MyEnumSet<Migration5<?>>
+    public static MyEnumSet<Migration5<?>> invert(MyEnumSet<Migration5<?>> set) {
         MyEnumSet<Migration5<?>> all = getEnumSet();
         all.removeAll(set);
         return all;
@@ -48,11 +49,12 @@ public abstract sealed class Migration5<T extends Number>
 
     public abstract T getNumber();
 
-    public static void printEnumSet(MyEnumSet<? extends Migration5> set) {
+    // MyEnumSet<? extends Migration5> -> MyEnumSet<Migration5<?>>
+    public static void printEnumSet(MyEnumSet<Migration5<?>> set) {
         System.out.println(set);
     }
 
-    public static Migration5[] values() {
+    public static Migration5<?>[] values() {
         return VALUES.toArray(new Migration5[0]);
     }
 

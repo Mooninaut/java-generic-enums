@@ -50,7 +50,7 @@ public abstract sealed class Migration4<T extends Number>
         System.out.println(set);
     }
 
-    public static Migration4[] values() {
+    public static Migration4<?>[] values() {
         return VALUES.toArray(new Migration4[0]);
     }
 
